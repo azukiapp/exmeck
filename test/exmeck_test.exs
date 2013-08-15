@@ -1,5 +1,6 @@
 defmodule ExmeckTest do
   use ExUnit.Case, async: false
+  require Exmeck
 
   @name_pattern %r/^exmeck-mock-[\w|-]{36}$/
 
@@ -29,5 +30,27 @@ defmodule ExmeckTest do
     mock.destroy!
 
     assert "http" == (URI.parse("http://example.com")).scheme
+  end
+
+  test "run a function in context of mock" do
+    Exmeck.mock_run URI, [stub_all: :ok] do
+      assert URI == mock.module
+      assert :ok == URI.parse "http://example.com"
+    end
+    assert "http" == (URI.parse("http://example.com")).scheme
+  end
+
+  test "stubs with function" do
+    Exmeck.mock_run do
+      mock.stubs(:test, fn -> :ok end)
+      assert :ok == mock.module.test
+    end
+  end
+
+  test "stubs with pattern" do
+    Exmeck.mock_run do
+      mock.stubs(:test, [:_, 2], :ok)
+      assert :ok == mock.module.test(:any, 2)
+    end
   end
 end

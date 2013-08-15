@@ -22,8 +22,25 @@ defmodule Exmeck do
     mock(module: module, options: options)
   end
 
+  def stubs(func, body, mock(module: module)) do
+    :meck.expect(module, func, body)
+  end
+
+  def stubs(func, args, return, mock(module: module)) do
+    :meck.expect(module, func, args, return)
+  end
+
   def destroy!(mock(module: module)) do
     :meck.unload(module)
+  end
+
+  # Run
+  defmacro mock_run(module // new_module, options // [], contents) do
+    quote hygiene: [vars: false] do
+      mock = unquote(__MODULE__).new(unquote(module), unquote(options))
+      unquote(contents)
+      mock.destroy!
+    end
   end
 
   # Helpers
