@@ -13,7 +13,7 @@ defmodule Exmeck do
   def new(module, options) when is_atom(module) do
     unless is_module?(module) do
       (defmodule module do; end)
-      options = List.concat options, [:non_strict]
+      options = Enum.concat options, [:non_strict]
     end
 
     # New mock

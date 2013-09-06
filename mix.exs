@@ -3,8 +3,8 @@ defmodule Exmeck.Mixfile do
 
   def project do
     [ app: :exmeck,
-      version: "0.0.1",
-      elixir: "~> 0.10.1",
+      version: "0.0.2",
+      elixir: "~> 0.10.2",
       deps: deps ]
   end
 
@@ -17,7 +17,7 @@ defmodule Exmeck.Mixfile do
   # { :foobar, "0.1", git: "https://github.com/elixir-lang/foobar.git" }
   defp deps do
     [
-      {:meck, "0.7.2", [github: "eproxus/meck", branch: "develop"]},
+      {:meck, [github: "eproxus/meck", tag: "0.8.1"]},
       {:uuid, "0.4.4", [github: "avtobiff/erlang-uuid", tag: "v0.4.4"]},
     ]
   end
