@@ -53,4 +53,17 @@ defmodule ExmeckTest do
       assert :ok == mock.module.test(:any, 2)
     end
   end
+
+  test "expect" do
+    Exmeck.mock_run do
+      mock.stubs(:test, [:_, 2], :ok)
+      assert :ok == mock.module.test(:any, 2)
+      assert :ok == mock.module.test(:any, 2)
+      assert :ok == mock.module.test(1, 2)
+
+      assert 2 == mock.num_calls(:test, [:any, 2])
+      assert 1 == mock.num_calls(:test, [1, 2])
+      assert 3 == mock.num_calls(:test, [:_, :_])
+    end
+  end
 end

@@ -30,6 +30,10 @@ defmodule Exmeck do
     :meck.expect(module, func, args, return)
   end
 
+  def num_calls(func, args, mock(module: module)) do
+    :meck.num_calls(module, func, args)
+  end
+
   def destroy!(mock(module: module)) do
     :meck.unload(module)
   end
